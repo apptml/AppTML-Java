@@ -37,7 +37,7 @@ public class AppTML {
 		launch(loadPlatform(launcher), doc, url);
 	}
 
-	private void launch(AppTMLPlatform<?> p, final Document doc, String url) {
+	public void launch(AppTMLPlatform<?> p, final Document doc, String url) {
 		final AppTMLFeatures f = p.features;
 		
 		//use features
@@ -59,7 +59,7 @@ public class AppTML {
 		//platform main tag
 		Elements mainTags = doc.getElementsByTag("apptml-" + p.name);
 		for(int i = 0; i < mainTags.size(); i++){
-			l.onMainTag(mainTags.get(i));
+			l.onMainTag(f, mainTags.get(i));
 		}
 		
 		AppTMLDisplay<?> d = l.display(f, url);

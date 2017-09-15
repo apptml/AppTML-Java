@@ -12,6 +12,6 @@ public interface AppTMLLauncher<JSEngine> {
 	 * @return the display to show first
 	 */
 	AppTMLDisplay<JSEngine> display(AppTMLFeatures features, String url);
-	void onMainTag(Element mainTag);
+	void onMainTag(AppTMLFeatures f, Element mainTag);
 	
 }
