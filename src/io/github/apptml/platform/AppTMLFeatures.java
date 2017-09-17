@@ -7,7 +7,9 @@ import org.jsoup.nodes.Element;
 
 import io.github.coalangsoft.lib.data.Func;
 
-public class AppTMLFeatures {
+public abstract class AppTMLFeatures<UI> {
+	
+	private AppTMLPlatform<UI> platform;
 	
 	private HashMap<String, Func<Element, Void>> features;
 	
@@ -32,6 +34,15 @@ public class AppTMLFeatures {
 				f.call(arg0);
 			}
 		});;
+	}
+	
+	public void setPlatform(AppTMLPlatform<UI> p){
+//		throw new RuntimeException("NIy");
+		this.platform = p;
+		System.out.println(this);
+	}
+	public AppTMLPlatform<UI> getPlatform(){
+		return platform;
 	}
 	
 }

@@ -2,7 +2,7 @@ package io.github.apptml.platform;
 
 import org.jsoup.nodes.Element;
 
-public interface AppTMLLauncher<JSEngine> {
+public interface AppTMLLauncher<UI> {
 	
 	/**
 	 * Initializes the AppTML web runtime.
@@ -11,7 +11,7 @@ public interface AppTMLLauncher<JSEngine> {
 	 * @param url Which URL to load
 	 * @return the display to show first
 	 */
-	AppTMLDisplay<JSEngine> display(AppTMLFeatures features, String url);
-	void onMainTag(AppTMLFeatures f, Element mainTag);
+	AppTMLDisplay display(AppTMLFeatures<UI> features, String url);
+	void onMainTag(AppTMLFeatures<UI> f, Element mainTag);
 	
 }

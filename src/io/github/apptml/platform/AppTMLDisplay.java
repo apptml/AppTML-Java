@@ -1,8 +1,10 @@
 package io.github.apptml.platform;
 
-public interface AppTMLDisplay<JSEngine> {
+import io.github.apptml.iface.LanguageEngine;
+
+public interface AppTMLDisplay {
 	
-	public JSEngine getJSEngine();
+	public LanguageEngine getJSEngine();
 	public void show();
 	
 }

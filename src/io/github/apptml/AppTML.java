@@ -6,7 +6,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
 import org.jsoup.nodes.Document;
@@ -20,7 +19,7 @@ import io.github.coalangsoft.lib.data.Func;
 
 public class AppTML {
 	
-	private ArrayList<AppTMLPlatform<?>> platforms;
+	private ArrayList<AppTMLPlatform> platforms;
 	private Properties settings;
 	
 	{
@@ -37,7 +36,7 @@ public class AppTML {
 		launch(loadPlatform(launcher), doc, url);
 	}
 
-	public void launch(AppTMLPlatform<?> p, final Document doc, String url) {
+	public void launch(AppTMLPlatform p, final Document doc, String url) {
 		final AppTMLFeatures f = p.features;
 		
 		//use features
@@ -54,7 +53,7 @@ public class AppTML {
 			
 		});
 		
-		AppTMLLauncher<?> l = p.launcher;
+		AppTMLLauncher l = p.launcher;
 		
 		//platform main tag
 		Elements mainTags = doc.getElementsByTag("apptml-" + p.name);
@@ -62,18 +61,18 @@ public class AppTML {
 			l.onMainTag(f, mainTags.get(i));
 		}
 		
-		AppTMLDisplay<?> d = l.display(f, url);
+		AppTMLDisplay d = l.display(f, url);
 		d.show();
 	}
 
-	private AppTMLPlatform<?> loadPlatform(String lib) throws MalformedURLException, InstantiationException, IllegalAccessException, ClassNotFoundException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	private AppTMLPlatform loadPlatform(String lib) throws MalformedURLException, InstantiationException, IllegalAccessException, ClassNotFoundException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		String libJar = settings.getProperty("library.jar." + lib);
 		if(libJar != null){
 			URLClassLoader l = new URLClassLoader(
 				new URL[]{new URL(libJar)}
 			);
 			String libClass = settings.getProperty("library.class." + lib);
-			return (AppTMLPlatform<?>) l.loadClass(libClass).newInstance();
+			return (AppTMLPlatform) l.loadClass(libClass).newInstance();
 		}else{
 			throw new RuntimeException(lib);
 		}
