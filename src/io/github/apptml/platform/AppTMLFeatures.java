@@ -1,8 +1,15 @@
 package io.github.apptml.platform;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import io.github.coalangsoft.lib.data.Func;
@@ -43,6 +50,15 @@ public abstract class AppTMLFeatures<UI> {
 	}
 	public AppTMLPlatform<UI> getPlatform(){
 		return platform;
+	}
+	
+	public Document document(String url) throws MalformedURLException, IOException, URISyntaxException {
+		//from <style> tags
+		if(url.startsWith("file:/")){
+			return Jsoup.parse(Paths.get(new URL(url).toURI()).toFile(), "UTF-8");
+		}else{
+			return Jsoup.parse(new URL(url), 3000);
+		}
 	}
 	
 }

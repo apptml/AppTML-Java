@@ -17,9 +17,9 @@ import io.github.apptml.platform.AppTMLLauncher;
 import io.github.apptml.platform.AppTMLPlatform;
 import io.github.coalangsoft.lib.data.Func;
 
-public class AppTML {
+public class AppTML<UI> {
 	
-	private ArrayList<AppTMLPlatform> platforms;
+	private ArrayList<AppTMLPlatform<UI>> platforms;
 	private Properties settings;
 	
 	{
@@ -36,8 +36,8 @@ public class AppTML {
 		launch(loadPlatform(launcher), doc, url);
 	}
 
-	public void launch(AppTMLPlatform p, final Document doc, String url) {
-		final AppTMLFeatures f = p.features;
+	public void launch(AppTMLPlatform<UI> p, final Document doc, String url) {
+		final AppTMLFeatures<UI> f = p.features;
 		
 		//use features
 		f.forEach(new Func<String, Void>(){
@@ -53,7 +53,7 @@ public class AppTML {
 			
 		});
 		
-		AppTMLLauncher l = p.launcher;
+		AppTMLLauncher<UI> l = p.launcher;
 		
 		//platform main tag
 		Elements mainTags = doc.getElementsByTag("apptml-" + p.name);
@@ -61,18 +61,18 @@ public class AppTML {
 			l.onMainTag(f, mainTags.get(i));
 		}
 		
-		AppTMLDisplay d = l.display(f, url);
+		AppTMLDisplay d = l.display(f, url, doc);
 		d.show();
 	}
 
-	private AppTMLPlatform loadPlatform(String lib) throws MalformedURLException, InstantiationException, IllegalAccessException, ClassNotFoundException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	private AppTMLPlatform<UI> loadPlatform(String lib) throws MalformedURLException, InstantiationException, IllegalAccessException, ClassNotFoundException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		String libJar = settings.getProperty("library.jar." + lib);
 		if(libJar != null){
 			URLClassLoader l = new URLClassLoader(
 				new URL[]{new URL(libJar)}
 			);
 			String libClass = settings.getProperty("library.class." + lib);
-			return (AppTMLPlatform) l.loadClass(libClass).newInstance();
+			return (AppTMLPlatform<UI>) l.loadClass(libClass).newInstance();
 		}else{
 			throw new RuntimeException(lib);
 		}
