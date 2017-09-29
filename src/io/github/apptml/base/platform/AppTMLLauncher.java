@@ -1,4 +1,4 @@
-package io.github.apptml.platform;
+package io.github.apptml.base.platform;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

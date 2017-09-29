@@ -1,6 +1,6 @@
-package io.github.apptml.platform;
+package io.github.apptml.base.platform;
 
-import io.github.apptml.iface.LanguageEngine;
+import io.github.apptml.urlscripting.LanguageEngine;
 
 public interface AppTMLDisplay {
 	

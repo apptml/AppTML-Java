@@ -1,9 +1,9 @@
-package io.github.apptml.platform;
+package io.github.apptml.base.platform;
 
 import java.util.HashMap;
 
-import io.github.apptml.iface.ScriptLanguage;
-import io.github.apptml.iface.StyleLanguage;
+import io.github.apptml.base.iface.StyleLanguage;
+import io.github.apptml.urlscripting.ScriptLanguage;
 
 public class AppTMLPlatform<UI> {
 	

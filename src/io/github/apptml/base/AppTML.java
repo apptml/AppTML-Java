@@ -1,4 +1,4 @@
-package io.github.apptml;
+package io.github.apptml.base;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -11,11 +11,12 @@ import java.util.Properties;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import io.github.apptml.platform.AppTMLDisplay;
-import io.github.apptml.platform.AppTMLFeatures;
-import io.github.apptml.platform.AppTMLLauncher;
-import io.github.apptml.platform.AppTMLPlatform;
+import io.github.apptml.base.platform.AppTMLDisplay;
+import io.github.apptml.base.platform.AppTMLFeatures;
+import io.github.apptml.base.platform.AppTMLLauncher;
+import io.github.apptml.base.platform.AppTMLPlatform;
 import io.github.coalangsoft.lib.data.Func;
+import io.github.coalangsoft.lib.security.SecurityProfile;
 
 public class AppTML<UI> {
 	
@@ -37,6 +38,13 @@ public class AppTML<UI> {
 	}
 
 	public void launch(AppTMLPlatform<UI> p, final Document doc, String url) {
+		try {
+			PluginLoader.applyAll(settings, p);
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		final AppTMLFeatures<UI> f = p.features;
 		
 		//use features

@@ -1,4 +1,4 @@
-package io.github.apptml.platform;
+package io.github.apptml.base.platform;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -7,6 +7,8 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.function.Consumer;
+
+import javax.swing.JOptionPane;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
