@@ -1,6 +1,7 @@
 package io.github.apptml.base;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -21,15 +22,12 @@ public class PluginLoader {
 	
 	@SuppressWarnings("unchecked")
 	public static <UI> void applyAll(String[] jars, String[] classes, AppTMLPlatform<UI> p) throws ClassNotFoundException, IOException{
-		URL[] jarUrls = new URL[jars.length];
-		for(int i = 0; i < jarUrls.length; i++){
-			jarUrls[i] = new URL(jars[i]);
+		for(int i = 0; i < jars.length; i++){
+			addURL(new URL(jars[i]));
 		}
-		URLClassLoader cl = new URLClassLoader(jarUrls);
 		for(int i = 0; i < classes.length; i++){
-			apply((Class<? extends AppTMLPlugin<UI>>) cl.loadClass(classes[i]), p);
+			apply((Class<? extends AppTMLPlugin<UI>>) Class.forName(classes[i]), p);
 		}
-		cl.close();
 	}
 	
 	public static <UI> void apply(Class<? extends AppTMLPlugin<UI>> c, AppTMLPlatform<UI> p){
@@ -57,5 +55,21 @@ public class PluginLoader {
 			p.styleLanguages.put(pair.getA(), pair.getB());
 		}
 	}
+	
+	public static void addURL(URL u) throws IOException {
+
+		URLClassLoader sysloader = (URLClassLoader) ClassLoader.getSystemClassLoader();
+		Class sysclass = URLClassLoader.class;
+
+		try {
+			Method method = sysclass.getDeclaredMethod("addURL", new Class[]{URL.class});
+			method.setAccessible(true);
+			method.invoke(sysloader, new Object[] { u });
+		} catch (Throwable t) {
+			t.printStackTrace();
+			throw new IOException("Error, could not add URL to system classloader");
+		} // end try catch
+
+	}// end method
 	
 }
